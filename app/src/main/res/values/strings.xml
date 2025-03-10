@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Podejscie1</string>
+    <string name="DescriptionPlaceholder">150g wołowiny zamknięte w maślanej bułce brioche ze świeżą sałatą, pomidorem, chrupiącą czerwoną cebulą, ogórkiem kiszonym i kremowym sosem classic</string>
+    <string name="BurgerNamePlaceholder">BurgerName</string>
+</resources>
