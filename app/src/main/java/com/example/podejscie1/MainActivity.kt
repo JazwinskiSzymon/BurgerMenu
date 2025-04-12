@@ -1,40 +1,60 @@
 package com.example.podejscie1
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.podejscie1.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     private lateinit var burgerAdapter: BurgerAdapter
+
+    private val burgerViewModel: BurgerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.ivLocation.setOnClickListener {
+            openSecondActivity("location")
+        }
+
+        binding.ivCart.setOnClickListener {
+            openSecondActivity("cart")
+        }
+
+        binding.ivProfile.setOnClickListener {
+            openSecondActivity("profile")
+        }
+
         setupRecyclerView()
 
-        lifecycleScope.launchWhenCreated {
-            val response = RetrofitInstance.api.getBurgers()
-            burgerAdapter.burgers = response.body()!!
-        }
+        burgerViewModel.burgers.observe(this, Observer { burgers ->
+            burgerAdapter.burgers = burgers
+        })
+
+        burgerViewModel.fetchBurgers()
+
 
     }
 
 
     private fun setupRecyclerView() = binding.rvBurgers.apply {
-        burgerAdapter = BurgerAdapter()
-        adapter = burgerAdapter
-        layoutManager = LinearLayoutManager(this@MainActivity)
+        burgerAdapter = BurgerAdapter(burgerViewModel)
+        binding.rvBurgers.apply {
+            adapter = burgerAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
+        }
     }
 
+    private fun openSecondActivity(buttonId: String) {
+        val intent = Intent(this, SecondActivity::class.java)
+        intent.putExtra("buttonId", buttonId)
+        startActivity(intent)
+    }
 }
