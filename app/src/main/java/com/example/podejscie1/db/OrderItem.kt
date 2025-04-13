@@ -13,5 +13,6 @@ data class OrderItem(
     val extraCheese: Boolean,
     val extraMeat: Boolean,
     val orderedAt: Long = System.currentTimeMillis(),
-    val status: String = "ordered"
+    val status: String = "ordered",
+    val price: Double
 )

@@ -1,4 +1,4 @@
-package com.example.podejscie1
+package com.example.podejscie1.mainactivity
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
+import com.example.podejscie1.retrofit.BurgerItem
+import com.example.podejscie1.R
 import com.example.podejscie1.databinding.ItemBurgerBinding
-import kotlin.random.Random
 
 class BurgerAdapter(private val burgerViewModel: BurgerViewModel) :
     RecyclerView.Adapter<BurgerAdapter.BurgerViewHolder>() {
@@ -56,7 +57,7 @@ class BurgerAdapter(private val burgerViewModel: BurgerViewModel) :
             tvBurgerName.text = burger.name
             tvDescription.text = burger.description
             ivBurger.setImageResource(R.drawable.placeholder)
-            tvPrice.text = "${String.format("%.2f", priceVal())} zł"
+            tvPrice.text = "30"
             tvAmount.text = burger.count.toString()
 
             val isExpanded = expandedPosition == position
@@ -94,14 +95,9 @@ class BurgerAdapter(private val burgerViewModel: BurgerViewModel) :
             btnAccept.setOnClickListener {
                 val extraCheese = checkboxExtraCheese.isChecked
                 val extraMeat = checkboxExtraMeat.isChecked
-                burgerViewModel.addBurgerToCart(burger, extraCheese, extraMeat, localCount)
+                val price = (tvPrice.text as String).toDouble()
+                burgerViewModel.addBurgerToCart(burger, extraCheese, extraMeat, localCount, price)
             }
         }
-    }
-
-    private fun priceVal(): Double {
-        val pr1 = Random.nextDouble(30.0, 50.0).toInt()
-        val pr2 = if (Random.nextBoolean()) 0.0 else 0.5
-        return pr1 + pr2
     }
 }

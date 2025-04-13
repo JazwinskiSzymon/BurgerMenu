@@ -1,13 +1,14 @@
-package com.example.podejscie1
+package com.example.podejscie1.secondacitivty
 
-import CartFragment
-import LocationFragment
-import ProfileFragment
+import com.example.podejscie1.cart.CartFragment
+import com.example.podejscie1.location.LocationFragment
+import com.example.podejscie1.profile.ProfileFragment
 import android.os.Bundle
 import android.util.Log
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.podejscie1.R
 
 class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

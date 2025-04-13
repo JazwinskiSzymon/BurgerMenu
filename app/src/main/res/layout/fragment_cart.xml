@@ -28,7 +28,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/grey_200">
 
             <ImageView
                 android:id="@+id/ivDelivery"
@@ -47,6 +48,7 @@
                 android:text="Dostawa"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/grey_900"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivDelivery" />
@@ -56,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="45-60 min"
+                android:textColor="@color/grey_900"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Odbiór"
+                android:textColor="@color/grey_500"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20 min"
+                android:textColor="@color/grey_500"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -143,6 +148,7 @@
             android:textColor="@color/grey_900" />
 
         <TextView
+            android:id="@+id/tvPrice1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -184,6 +190,7 @@
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/tvPrice2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"

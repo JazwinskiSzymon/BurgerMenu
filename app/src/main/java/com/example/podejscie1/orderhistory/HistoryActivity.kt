@@ -1,4 +1,4 @@
-package com.example.podejscie1
+package com.example.podejscie1.orderhistory
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -10,7 +10,7 @@ import com.example.podejscie1.databinding.ActivityHistoryBinding
 class HistoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHistoryBinding
-    private val orderHistoryViewModel: OrderHistoryViewModel by viewModels() // Używamy nowego ViewModel dla historii zamówień
+    private val orderHistoryViewModel: OrderHistoryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

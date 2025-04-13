@@ -47,6 +47,19 @@
         app:layout_constraintStart_toEndOf="@+id/ivBurger"
         app:layout_constraintTop_toBottomOf="@+id/tvOrderNumber" />
 
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:padding="4dp"
+        android:text="30.00 zł"
+        android:textColor="@color/grey_900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivBurger"
+        app:layout_constraintTop_toBottomOf="@+id/tvTime" />
+
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider"
         android:layout_width="match_parent"

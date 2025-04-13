@@ -59,11 +59,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="18dp"
-        android:text="33.00zl"
+        android:text="33.00"
         android:textColor="@color/grey_900"
         android:textSize="18dp"
         app:layout_constraintStart_toEndOf="@+id/ivAdd"
         app:layout_constraintTop_toBottomOf="@+id/ivBurger" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="3dp"
+        android:text="zł"
+        android:textColor="@color/grey_900"
+        android:textSize="18dp"
+        app:layout_constraintStart_toEndOf="@+id/tvPrice"
+        app:layout_constraintTop_toBottomOf="@+id/ivBurger"/>
 
 
     <LinearLayout

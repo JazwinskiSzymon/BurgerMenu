@@ -1,12 +1,14 @@
+package com.example.podejscie1.cart
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.podejscie1.CartViewModel
 import com.example.podejscie1.R
 import com.example.podejscie1.db.CartItem
+import com.example.podejscie1.cart.CartViewModel
 
 class CartAdapter(
     private val viewModel: CartViewModel
@@ -41,7 +43,7 @@ class CartAdapter(
             tvItemName.text = item.name
             tvMeat.visibility = if (item.extraMeat) View.VISIBLE else View.GONE
             tvCheese.visibility = if (item.extraCheese) View.VISIBLE else View.GONE
-            tvPrice.text = "42.00zł"
+            tvPrice.text = String.format("%.2f zł", item.price * item.amount)
             tvAmount.text = item.amount.toString()
 
             ivMinus.setOnClickListener {

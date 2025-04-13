@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary2_700"
-    tools:context=".HistoryActivity">
+    tools:context=".orderhistory.HistoryActivity">
 
     <View
         android:id="@+id/divider"

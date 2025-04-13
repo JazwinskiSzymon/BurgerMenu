@@ -1,4 +1,4 @@
-package com.example.podejscie1
+package com.example.podejscie1.retrofit
 
 data class BurgerItem(
     val addresses: List<Addresse>,

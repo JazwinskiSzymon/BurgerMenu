@@ -1,3 +1,5 @@
+package com.example.podejscie1.location
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater

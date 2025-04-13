@@ -1,10 +1,12 @@
-package com.example.podejscie1
+package com.example.podejscie1.mainactivity
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.podejscie1.retrofit.BurgerItem
+import com.example.podejscie1.retrofit.RetrofitInstance
 import com.example.podejscie1.db.AppDatabase
 import com.example.podejscie1.db.CartDao
 import com.example.podejscie1.db.CartItem
@@ -36,13 +38,7 @@ class BurgerViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    private fun generateNewOrderId(): Int {
-        val newOrderId = Random.nextInt(1, 10001)
-        return newOrderId
-    }
-
-
-    fun addBurgerToCart(burger: BurgerItem, extraCheese: Boolean, extraMeat: Boolean, amount: Int) {
+    fun addBurgerToCart(burger: BurgerItem, extraCheese: Boolean, extraMeat: Boolean, amount: Int, price: Double) {
         viewModelScope.launch {
             val existingItem = cartDao.getItemByBurger(burger.id, extraCheese, extraMeat)
 
@@ -57,7 +53,8 @@ class BurgerViewModel(application: Application) : AndroidViewModel(application) 
                     name = burger.name,
                     extraCheese = extraCheese,
                     extraMeat = extraMeat,
-                    amount = amount
+                    amount = amount,
+                    price = price
                 )
                 viewModelScope.launch(Dispatchers.IO) {
                     cartDao.insert(cartItem)
@@ -65,17 +62,4 @@ class BurgerViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
     }
-
-    fun removeBurgerFromCart(burger: CartItem) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cartDao.delete(burger)
-        }
-    }
-
-    fun updateBurgerInCart(burger: CartItem) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cartDao.update(burger)
-        }
-    }
-
 }

@@ -1,8 +1,9 @@
-package com.example.podejscie1
+package com.example.podejscie1.orderhistory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.podejscie1.R
 import com.example.podejscie1.databinding.ItemOrderBinding
 import com.example.podejscie1.db.OrderItem
 import java.text.SimpleDateFormat
@@ -23,15 +24,12 @@ class OrderHistoryAdapter(private val orders: List<OrderItem>) :
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orders[position]
         val binding = holder.binding
-
         binding.tvOrderNumber.text = "Zamówienie #${order.orderId}"
-
         val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         val formattedDate = dateFormat.format(Date(order.orderedAt))
         binding.tvTime.text = formattedDate
-
         binding.ivBurger.setImageResource(R.drawable.placeholder)
-
+        binding.tvPrice.text = String.format("%.2f zł", order.price * order.quantity)
         binding.btnTrack.setOnClickListener {
         }
     }

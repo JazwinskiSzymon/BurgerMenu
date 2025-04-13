@@ -1,4 +1,4 @@
-package com.example.podejscie1
+package com.example.podejscie1.cart
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -17,20 +17,8 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
 
     val cartItems: LiveData<List<CartItem>> = cartDao.getAllItems()
 
-    fun addItem(item: CartItem) = viewModelScope.launch {
-        cartDao.insert(item)
-    }
-
     fun removeItem(item: CartItem) = viewModelScope.launch {
         cartDao.delete(item)
-    }
-
-    fun updateItem(item: CartItem) = viewModelScope.launch {
-        cartDao.update(item)
-    }
-
-    fun clearCart() = viewModelScope.launch {
-        cartDao.clearCart()
     }
 
     private fun generateNewOrderId(): Int {
@@ -49,15 +37,12 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
                 quantity = item.amount,
                 extraCheese = item.extraCheese,
                 extraMeat = item.extraMeat,
-                orderId = orderId
+                orderId = orderId,
+                price = item.price
             )
             orderDao.insert(order)
         }
 
         cartDao.clearCart()
-    }
-
-    fun markAllAsOrdered() = viewModelScope.launch {
-        cartDao.markAllAsOrdered()
     }
 }

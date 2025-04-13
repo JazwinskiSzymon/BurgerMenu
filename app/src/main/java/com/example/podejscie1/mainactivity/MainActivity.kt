@@ -1,4 +1,4 @@
-package com.example.podejscie1
+package com.example.podejscie1.mainactivity
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.podejscie1.secondacitivty.SecondActivity
 import com.example.podejscie1.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

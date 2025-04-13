@@ -11,5 +11,6 @@ data class CartItem(
     val extraCheese: Boolean,
     val extraMeat: Boolean,
     val amount: Int,
-    val ordered: Boolean = false
+    val ordered: Boolean = false,
+    val price: Double
 )

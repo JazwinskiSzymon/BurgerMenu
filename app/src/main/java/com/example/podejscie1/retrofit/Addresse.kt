@@ -1,4 +1,4 @@
-package com.example.podejscie1
+package com.example.podejscie1.retrofit
 
 data class Addresse(
     val addressID: Int,
