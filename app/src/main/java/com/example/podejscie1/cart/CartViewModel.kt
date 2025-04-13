@@ -7,28 +7,32 @@ import androidx.lifecycle.viewModelScope
 import com.example.podejscie1.db.AppDatabase
 import com.example.podejscie1.db.CartItem
 import com.example.podejscie1.db.OrderItem
+import com.example.podejscie1.repository.CartRepository
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class CartViewModel(application: Application) : AndroidViewModel(application) {
-    private val db = AppDatabase.getInstance(application)
-    private val cartDao = db.cartDao()
-    private val orderDao = db.orderDao()
 
-    val cartItems: LiveData<List<CartItem>> = cartDao.getAllItems()
+    private val repository: CartRepository
+    val cartItems: LiveData<List<CartItem>>
+
+    init {
+        val db = AppDatabase.getInstance(application)
+        repository = CartRepository(db.cartDao(), db.orderDao())
+        cartItems = repository.cartItems
+    }
 
     fun removeItem(item: CartItem) = viewModelScope.launch {
-        cartDao.delete(item)
+        repository.removeItem(item)
     }
 
     private fun generateNewOrderId(): Int {
-        val newOrderId = Random.nextInt(1, 10001)
-        return newOrderId
+        return Random.nextInt(1, 10001)
     }
 
     fun orderCart() = viewModelScope.launch {
-        var orderId = generateNewOrderId()
-        val items = cartDao.getAllItemsList()
+        val orderId = generateNewOrderId()
+        val items = repository.getCartItemsList()
 
         for (item in items) {
             val order = OrderItem(
@@ -40,9 +44,9 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
                 orderId = orderId,
                 price = item.price
             )
-            orderDao.insert(order)
+            repository.insertOrder(order)
         }
 
-        cartDao.clearCart()
+        repository.clearCart()
     }
 }
