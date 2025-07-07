@@ -12,7 +12,6 @@ import com.example.podejscie1.db.CartDao
 import com.example.podejscie1.db.CartItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class BurgerViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -20,6 +19,9 @@ class BurgerViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _burgers = MutableLiveData<List<BurgerItem>>()
     val burgers: LiveData<List<BurgerItem>> get() = _burgers
+
+    private val _expandedBurgerId = MutableLiveData<Int?>(null)
+    val expandedBurgerId: LiveData<Int?> get() = _expandedBurgerId
 
 
     fun fetchBurgers() {
@@ -38,12 +40,12 @@ class BurgerViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun addBurgerToCart(burger: BurgerItem, extraCheese: Boolean, extraMeat: Boolean, amount: Int, price: Double) {
+    fun addBurgerToCart(burger: BurgerItem, extraCheese: Boolean, extraMeat: Boolean, price: Double) {
         viewModelScope.launch {
             val existingItem = cartDao.getItemByBurger(burger.id, extraCheese, extraMeat)
 
             if (existingItem != null) {
-                val updatedItem = existingItem.copy(amount = existingItem.amount + amount)
+                val updatedItem = existingItem.copy(amount = existingItem.amount + burger.count)
                 viewModelScope.launch(Dispatchers.IO) {
                     cartDao.update(updatedItem)
                 }
@@ -53,7 +55,7 @@ class BurgerViewModel(application: Application) : AndroidViewModel(application) 
                     name = burger.name,
                     extraCheese = extraCheese,
                     extraMeat = extraMeat,
-                    amount = amount,
+                    amount = burger.count,
                     price = price
                 )
                 viewModelScope.launch(Dispatchers.IO) {
@@ -61,5 +63,37 @@ class BurgerViewModel(application: Application) : AndroidViewModel(application) 
                 }
             }
         }
+    }
+
+    fun onBurgerToggled(burgerId: Int) {
+        if (_expandedBurgerId.value == burgerId) {
+            _expandedBurgerId.value = null
+        } else {
+            _expandedBurgerId.value = burgerId
+        }
+    }
+
+    fun incrementBurgerCount(burgerId: Int) {
+        val currentList = _burgers.value ?: return
+        val newList = currentList.map { burger ->
+            if (burger.id == burgerId) {
+                burger.copy(count = burger.count + 1)
+            } else {
+                burger
+            }
+        }
+        _burgers.value = newList
+    }
+
+    fun decrementBurgerCount(burgerId: Int) {
+        val currentList = _burgers.value ?: return
+        val newList = currentList.map { burger ->
+            if (burger.id == burgerId && burger.count > 1) {
+                burger.copy(count = burger.count - 1)
+            } else {
+                burger
+            }
+        }
+        _burgers.value = newList
     }
 }

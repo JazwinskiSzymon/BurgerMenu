@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
 
     private val burgerViewModel: BurgerViewModel by viewModels()
 
+    private var previouslyExpandedId: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -39,9 +41,23 @@ class MainActivity : AppCompatActivity() {
             burgerAdapter.burgers = burgers
         })
 
-        burgerViewModel.fetchBurgers()
+        burgerViewModel.expandedBurgerId.observe(this) { currentExpandedId ->
+            previouslyExpandedId?.let { id ->
+                val oldPosition = burgerAdapter.burgers.indexOfFirst { it.id == id }
+                if (oldPosition != -1) burgerAdapter.notifyItemChanged(oldPosition)
+            }
 
+            currentExpandedId?.let { id ->
+                val newPosition = burgerAdapter.burgers.indexOfFirst { it.id == id }
+                if (newPosition != -1) burgerAdapter.notifyItemChanged(newPosition)
+            }
 
+            previouslyExpandedId = currentExpandedId
+        }
+
+        if(burgerViewModel.burgers.value == null){
+            burgerViewModel.fetchBurgers()
+        }
     }
 
 

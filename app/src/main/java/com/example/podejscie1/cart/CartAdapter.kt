@@ -5,16 +5,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.podejscie1.R
 import com.example.podejscie1.db.CartItem
-import com.example.podejscie1.cart.CartViewModel
 
 class CartAdapter(
     private val viewModel: CartViewModel
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
-    var cartItems: List<CartItem> = emptyList()
+    private val diffCallback = object : DiffUtil.ItemCallback<CartItem>() {
+        override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    private val differ = AsyncListDiffer(this, diffCallback)
+
+    var cartItems: List<CartItem>
+        get() = differ.currentList
+        set(value) { differ.submitList(value) }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -40,6 +55,7 @@ class CartAdapter(
 
         fun bind(item: CartItem, position: Int) {
             tvIndex.text = (position + 1).toString()
+
             tvItemName.text = item.name
             tvMeat.visibility = if (item.extraMeat) View.VISIBLE else View.GONE
             tvCheese.visibility = if (item.extraCheese) View.VISIBLE else View.GONE
@@ -48,8 +64,6 @@ class CartAdapter(
 
             ivMinus.setOnClickListener {
                 viewModel.removeItem(item)
-                cartItems = cartItems.filter { it != item }
-                notifyDataSetChanged()
             }
         }
     }

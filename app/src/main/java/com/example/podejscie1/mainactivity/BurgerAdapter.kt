@@ -1,6 +1,5 @@
 package com.example.podejscie1.mainactivity
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,6 @@ import com.example.podejscie1.databinding.ItemBurgerBinding
 
 class BurgerAdapter(private val burgerViewModel: BurgerViewModel) :
     RecyclerView.Adapter<BurgerAdapter.BurgerViewHolder>() {
-
-    private var expandedPosition: Int? = null
 
     inner class BurgerViewHolder(val binding: ItemBurgerBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -60,43 +57,29 @@ class BurgerAdapter(private val burgerViewModel: BurgerViewModel) :
             tvPrice.text = "30"
             tvAmount.text = burger.count.toString()
 
-            val isExpanded = expandedPosition == position
+            val isExpanded = burgerViewModel.expandedBurgerId.value == burger.id
+
+            if (expandableLayout.visibility == View.VISIBLE && !isExpanded) {
+                TransitionManager.beginDelayedTransition(holder.itemView as ViewGroup)
+            }
             expandableLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
-            ivAdd.setOnClickListener {
-                TransitionManager.beginDelayedTransition(binding.root as ViewGroup)
-                val previousExpandedPosition = expandedPosition
-                if (isExpanded) {
-                    expandedPosition = null
-                    notifyItemChanged(position)
-                } else {
-                    expandedPosition = position
-                    notifyItemChanged(position)
-                    previousExpandedPosition?.let { notifyItemChanged(it) }
-                }
-            }
 
-            var localCount = burger.count
-            Log.i("MYTAG", burger.count.toString())
-            tvAmount.text = localCount.toString()
+            ivAdd.setOnClickListener {
+                burgerViewModel.onBurgerToggled(burger.id)
+            }
 
             btnAdd.setOnClickListener {
-                localCount++
-                burger.count = localCount
-                tvAmount.text = localCount.toString()
+                burgerViewModel.incrementBurgerCount(burger.id)
             }
             btnRemove.setOnClickListener {
-                if (localCount > 1) {
-                    localCount--
-                    burger.count = localCount
-                    tvAmount.text = localCount.toString()
-                }
+                burgerViewModel.decrementBurgerCount(burger.id)
             }
             btnAccept.setOnClickListener {
                 val extraCheese = checkboxExtraCheese.isChecked
                 val extraMeat = checkboxExtraMeat.isChecked
                 val price = (tvPrice.text as String).toDouble()
-                burgerViewModel.addBurgerToCart(burger, extraCheese, extraMeat, localCount, price)
+                burgerViewModel.addBurgerToCart(burger, extraCheese, extraMeat, price)
             }
         }
     }

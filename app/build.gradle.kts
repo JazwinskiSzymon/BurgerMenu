@@ -36,12 +36,14 @@ android {
     }
     buildFeatures{
         viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.preference.ktx)
     val room_version = "2.7.0"
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:2.6.1")
@@ -64,6 +66,9 @@ dependencies {
     // ViewModel i LiveData
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1") 
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+
+    implementation ("org.osmdroid:osmdroid-android:6.1.18")
+
 
     implementation ("androidx.fragment:fragment-ktx:1.4.0")
     implementation ("androidx.activity:activity-ktx:1.6.1")
